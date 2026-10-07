@@ -157,8 +157,13 @@ export function Calendar({
       </div>
 
       <div className="flex gap-4">
-        {[firstMonth, addMonths(firstMonth, 1)].map((month) => (
-          <div key={`${month.year}-${month.month}`} className="min-w-0 flex-1">
+        {[firstMonth, addMonths(firstMonth, 1)].map((month, index) => (
+          // Two months side by side need the measured 47.78px cell to stay legible,
+          // so the second one waits for md and narrow screens page instead.
+          <div
+            key={`${month.year}-${month.month}`}
+            className={`min-w-0 flex-1 ${index === 1 ? "hidden md:block" : ""}`}
+          >
             <MonthGrid
               month={month}
               today={today}

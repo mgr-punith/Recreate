@@ -3,6 +3,7 @@
 import { Heart, Minus, Plus, Star } from "lucide-react";
 import Image from "next/image";
 import { useRental } from "@/components/rental-context/RentalProvider";
+import { useSaved } from "@/components/saved-context/SavedProvider";
 import { formatBookedCount, formatRent } from "@/lib/format";
 import { formatRentalLength, rentalTotal } from "@/lib/rental";
 import type { Product, ProductTag } from "@/types/product";
@@ -29,6 +30,8 @@ export function ProductCard({
     openDatePicker,
   } = useRental();
   const quantity = quantityOf(product.id);
+  const { isSaved, toggleSaved } = useSaved();
+  const saved = isSaved(product.id);
 
   // Without dates there is no price and no rental, so the CTA asks for dates first.
   const startRental = canRent
@@ -53,10 +56,23 @@ export function ProductCard({
 
       <button
         type="button"
-        aria-label={`Save ${product.name} for later`}
-        className="absolute top-1 right-1 z-10 scale-80 text-ink-muted opacity-10 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 group-focus-within:scale-100 group-focus-within:opacity-100 hover:text-trending md:top-3 md:right-3 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
+        aria-pressed={saved}
+        aria-label={
+          saved
+            ? `Remove ${product.name} from saved`
+            : `Save ${product.name} for later`
+        }
+        onClick={() => toggleSaved(product.id)}
+        className={`absolute top-1 right-1 z-10 scale-80 transition-all duration-300 group-hover:scale-100 group-focus-within:scale-100 hover:text-trending md:top-3 md:right-3 ${
+          saved
+            ? "text-trending opacity-100"
+            : "text-ink-muted opacity-10 group-hover:opacity-100 group-focus-within:opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
+        }`}
       >
-        <Heart aria-hidden="true" className="size-5" />
+        <Heart
+          aria-hidden="true"
+          className={`size-5 ${saved ? "fill-trending" : ""}`}
+        />
       </button>
 
       <div className="relative aspect-square shrink-0 overflow-hidden rounded-lg bg-tile p-1.5 md:rounded-2xl md:bg-surface">

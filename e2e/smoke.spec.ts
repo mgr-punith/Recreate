@@ -217,3 +217,109 @@ test("does not scroll sideways on a narrow screen", async ({ page }) => {
 
   expect(overflow).toBeLessThanOrEqual(1);
 });
+
+test("narrows the catalogue with the search field, then puts it back", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await dismissPicker(page);
+
+  const search = page.getByLabel("Search gaming gadgets");
+  await search.fill("fc27");
+
+  await expect(page.getByText("Showing 3 of 3 results")).toBeVisible();
+  expect(await page.locator("article").count()).toBe(3);
+
+  await page.getByRole("button", { name: "Clear all" }).click();
+
+  await expect(page.getByText("Showing 12 of 23 results")).toBeVisible();
+  await expect(search).toHaveValue("");
+});
+
+test("says so when a search matches nothing, and clears on request", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await dismissPicker(page);
+
+  await page.getByLabel("Search gaming gadgets").fill("drone");
+
+  await expect(page.getByText(/no gadgets match/i)).toBeVisible();
+  expect(await page.locator("article").count()).toBe(0);
+
+  await page.getByRole("button", { name: "Clear filters" }).click();
+
+  await expect(page.getByText("Showing 12 of 23 results")).toBeVisible();
+});
+
+test("drops the out of stock gadgets when the stock filter is on", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await dismissPicker(page);
+
+  await page.getByRole("button", { name: "In stock only" }).click();
+
+  await expect(page.getByText("Showing 12 of 19 results")).toBeVisible();
+  await expect(page.getByRole("button", { name: /out of stock/i })).toBeHidden();
+});
+
+test("puts the cheapest gadget first when sorting by price", async ({ page }) => {
+  await page.goto("/");
+  await dismissPicker(page);
+
+  await page.getByLabel("Sort by").selectOption("price-asc");
+
+  await expect(
+    page.locator("#categories").getByRole("heading", { level: 3 }).first(),
+  ).toHaveText("PlayStation Portal Remote Player");
+});
+
+test("saves a gadget for later, then takes it out again", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/");
+  await dismissPicker(page);
+
+  const name = (
+    await page.locator("#categories").getByRole("heading", { level: 3 }).first().textContent()
+  )?.trim();
+
+  await page.getByRole("button", { name: `Save ${name} for later` }).click();
+
+  const count =
+    testInfo.project.name === "mobile"
+      ? page.getByRole("link", { name: "Saved, 1 items saved" })
+      : page.getByRole("link", { name: "Saved (1)" });
+  await expect(count).toBeVisible();
+
+  const rail = page.locator("#saved");
+  await expect(
+    rail.getByRole("heading", { name: "Saved for later" }),
+  ).toBeVisible();
+  await expect(rail.getByRole("heading", { name })).toBeVisible();
+
+  await rail.getByRole("button", { name: `Remove ${name} from saved` }).click();
+
+  await expect(page.locator("#saved")).toHaveCount(0);
+});
+
+test("fills the recently viewed rail as gadgets scroll past", async ({ page }) => {
+  await page.goto("/");
+  await dismissPicker(page);
+
+  const rail = page.locator("#recent");
+
+  // Walk down the page so cards pass through the viewport at a readable pace.
+  for (let step = 0; step < 40 && (await rail.count()) === 0; step += 1) {
+    await page.evaluate(() => window.scrollBy(0, 600));
+  }
+
+  await expect(
+    rail.getByRole("heading", { name: "Recently viewed" }),
+  ).toBeVisible();
+
+  const viewed = rail.getByRole("heading", { level: 3 });
+  expect(await viewed.count()).toBeGreaterThan(0);
+  expect(await viewed.count()).toBeLessThanOrEqual(6);
+});

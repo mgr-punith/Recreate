@@ -9,6 +9,7 @@ import {
   RentalDatesBar,
   RentalDatesPill,
 } from "@/components/rental-dates/RentalDates";
+import { SavedButton } from "@/components/saved/SavedButton";
 
 function Logo() {
   return (
@@ -80,15 +81,17 @@ export function Header() {
           </div>
 
           <div className="flex shrink-0 items-center gap-1 self-center">
-            <button
-              type="button"
+            <a
+              href="#search"
               aria-label="Search"
               className="flex size-10 items-center justify-center rounded-full text-white"
             >
               <Search aria-hidden="true" className="size-5" />
-            </button>
+            </a>
 
             <CartButton className="flex size-10 items-center justify-center rounded-full text-white" />
+
+            <SavedButton />
 
             <button
               type="button"
