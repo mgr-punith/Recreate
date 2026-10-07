@@ -32,26 +32,33 @@ export default function Home() {
 
             <ProductGrid products={products} />
           </section>
-
-          <Faq />
-
-          <nav aria-label="Breadcrumb" className="text-sm text-ink-muted">
-            <ol className="flex items-center gap-2">
-              <li>
-                <a href="/bangalore" className="hover:text-ink">
-                  Bangalore
-                </a>
-              </li>
-              <li aria-hidden="true">&gt;</li>
-              <li>
-                <span aria-current="page">Gaming gadgets on rent</span>
-              </li>
-            </ol>
-          </nav>
-
-          <Testimonials />
-          <Stats />
         </div>
+      </div>
+
+      {/* The rail belongs to the hero and the catalogue only, so everything
+          after it sits in the page container instead. */}
+      <div className="mx-auto w-full max-w-[1240px] space-y-6 px-4 pb-6">
+        <Faq />
+
+        <nav aria-label="Breadcrumb" className="text-sm text-ink-muted">
+          <ol className="flex items-center gap-2">
+            <li>
+              <a href="/bangalore" className="hover:text-ink">
+                Bangalore
+              </a>
+            </li>
+            <li aria-hidden="true">&gt;</li>
+            <li>
+              <span aria-current="page">Gaming gadgets on rent</span>
+            </li>
+          </ol>
+        </nav>
+      </div>
+
+      <Testimonials />
+
+      <div className="w-full">
+        <Stats />
       </div>
     </main>
   );

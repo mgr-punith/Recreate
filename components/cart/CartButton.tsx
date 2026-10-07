@@ -1,6 +1,10 @@
 "use client";
 
 import { ShoppingCart } from "lucide-react";
+import {
+  CartCountBadge,
+  cartCountLabel,
+} from "@/components/cart/CartCountBadge";
 import { useRental } from "@/components/rental-context/RentalProvider";
 
 export function CartButton({ className }: { className: string }) {
@@ -9,11 +13,14 @@ export function CartButton({ className }: { className: string }) {
   return (
     <button
       type="button"
-      aria-label={itemCount === 0 ? "Cart" : `Cart, ${itemCount} items added`}
+      aria-label={cartCountLabel(itemCount)}
       onClick={openCart}
       className={className}
     >
-      <ShoppingCart aria-hidden="true" className="size-5" />
+      <span className="relative">
+        <ShoppingCart aria-hidden="true" className="size-5" />
+        <CartCountBadge count={itemCount} />
+      </span>
     </button>
   );
 }

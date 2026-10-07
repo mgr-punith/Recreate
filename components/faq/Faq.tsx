@@ -31,7 +31,7 @@ const faqs = [
 
 export function Faq() {
   return (
-    <section className="rounded-card bg-surface p-6 lg:p-8">
+    <section className="rounded-card bg-surface p-6 lg:p-8 lg:mt-10">
       <h2 className="font-display text-section font-bold">
         Frequently Asked Questions (FAQs)
       </h2>

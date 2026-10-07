@@ -6,13 +6,13 @@ const stats = [
 
 export function Stats() {
   return (
-    <section className="rounded-card bg-navy px-6 py-8 text-white lg:px-10">
+    <section className="py-8 bg-white text-white">
       <dl className="grid gap-6 text-center md:grid-cols-3">
         {stats.map((stat) => (
           <div key={stat.label}>
             <dt className="sr-only">{stat.label}</dt>
             <dd>
-              <span className="block font-display text-3xl font-bold text-lime">
+              <span className="block font-display text-5xl font-bold text-blue-700">
                 {stat.value}
               </span>
               <span className="mt-1 block text-sm text-white/70">

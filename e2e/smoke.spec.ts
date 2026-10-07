@@ -120,6 +120,15 @@ test("reveals prices, then takes the rental into the cart", async ({ page }) => 
 
   await page.keyboard.press("Escape");
   await expect(cart).toHaveAttribute("aria-hidden", "true");
+
+  const cartTrigger =
+    test.info().project.name === "mobile"
+      ? page.locator("nav[aria-label='Primary']").getByRole("button", {
+          name: /^Cart/,
+        })
+      : page.locator("header").getByRole("button", { name: /^Cart/ });
+
+  await expect(cartTrigger.getByText("2")).toBeVisible();
 });
 
 test("re-prices the cart when the dates are changed from inside it", async ({
@@ -160,6 +169,41 @@ test("reveals an answer when a frequently asked question is opened", async ({
 
   await question.click();
   await expect(answer).toBeVisible();
+});
+
+test("keeps the footer's rental prose folded away until read more is opened", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await dismissPicker(page);
+
+  const categories = page.getByRole("heading", { name: "Categories on Rent" });
+  await expect(categories).toBeHidden();
+
+  await page.getByText("Read more").click();
+
+  await expect(categories).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Gaming Consoles on Rent" }),
+  ).toBeVisible();
+  await expect(page.getByText("Read less")).toBeVisible();
+});
+
+test("opens a tab's sub-categories on hover", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "the row does not fit 375px");
+
+  await page.goto("/");
+  await dismissPicker(page);
+
+  const tabs = page.getByRole("navigation", { name: "Rental categories" });
+  await expect(tabs.getByRole("link", { name: "DJI Drones" })).toBeHidden();
+
+  await tabs.getByRole("link", { name: "Photography" }).hover();
+
+  await expect(tabs.getByRole("link", { name: "DJI Drones" })).toBeVisible();
+  await expect(
+    tabs.getByRole("link", { name: "Action Camera Add ons" }),
+  ).toBeVisible();
 });
 
 test("does not scroll sideways on a narrow screen", async ({ page }) => {
