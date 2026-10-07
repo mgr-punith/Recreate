@@ -1,11 +1,14 @@
 import {
-  CalendarDays,
   ChevronDown,
   MapPin,
   Search,
-  ShoppingCart,
   User,
 } from "lucide-react";
+import { CartButton } from "@/components/cart/CartButton";
+import {
+  RentalDatesBar,
+  RentalDatesPill,
+} from "@/components/rental-dates/RentalDates";
 
 function Logo() {
   return (
@@ -50,17 +53,7 @@ export function Header() {
 
         <div className="pb-3 lg:hidden">
           <div className="flex h-12 items-center gap-2 rounded-pill bg-white pr-1 pl-4">
-            <CalendarDays aria-hidden="true" className="size-5 text-navy" />
-            <span className="flex-1 truncate text-sm text-ink-muted">
-              Select Rental Dates
-            </span>
-            <button
-              type="button"
-              className="flex h-10 items-center gap-1.5 rounded-pill bg-navy px-4 text-sm font-semibold text-white"
-            >
-              <CalendarDays aria-hidden="true" className="size-4" />
-              Select
-            </button>
+            <RentalDatesPill />
           </div>
         </div>
 
@@ -83,33 +76,7 @@ export function Header() {
               <ChevronDown aria-hidden="true" className="size-4" />
             </button>
 
-            <span aria-hidden="true" className="h-6 w-px bg-line" />
-
-            <button
-              type="button"
-              className="flex items-center gap-1.5 px-3 text-sm text-ink-muted"
-            >
-              <CalendarDays aria-hidden="true" className="size-4" />
-              Delivery Date
-            </button>
-
-            <span aria-hidden="true" className="h-6 w-px bg-line" />
-
-            <button
-              type="button"
-              className="flex items-center gap-1.5 px-3 text-sm text-ink-muted"
-            >
-              <CalendarDays aria-hidden="true" className="size-4" />
-              Pickup Date
-            </button>
-
-            <button
-              type="button"
-              className="flex h-10 items-center gap-1.5 rounded-pill bg-navy px-5 text-sm font-semibold text-white"
-            >
-              <CalendarDays aria-hidden="true" className="size-4" />
-              Select
-            </button>
+            <RentalDatesBar />
           </div>
 
           <div className="flex shrink-0 items-center gap-1 self-center">
@@ -121,13 +88,7 @@ export function Header() {
               <Search aria-hidden="true" className="size-5" />
             </button>
 
-            <button
-              type="button"
-              aria-label="Cart"
-              className="flex size-10 items-center justify-center rounded-full text-white"
-            >
-              <ShoppingCart aria-hidden="true" className="size-5" />
-            </button>
+            <CartButton className="flex size-10 items-center justify-center rounded-full text-white" />
 
             <button
               type="button"

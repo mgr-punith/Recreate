@@ -41,11 +41,11 @@ const gearCategories = [
 
 const companyLinks = [
   {
-    heading: "SharePal",
+    heading: "Sharepal",
     links: ["About", "Why SharePal", "Sitemap", "Careers"],
   },
   {
-    heading: "Become a Partner",
+    heading: "Become a Pal",
     links: [
       "SharePal for Creators",
       "Careers",
@@ -77,6 +77,82 @@ const companyLinks = [
 ];
 
 const socialLinks = ["Facebook", "Instagram", "YouTube", "LinkedIn"];
+
+const bangaloreIntro =
+  "Discover the convenience of renting from SharePal, your trusted partner in Bangalore for all your rental needs. Whether you're exploring the vibrant streets of Koramangala, setting up a shoot in Indiranagar, or planning a trek from the outskirts of Whitefield, SharePal has you covered. We offer a wide range of products, including cameras, action cameras, gaming consoles, projectors, speakers, trekking gear, riding gear, and creator gear. With free home delivery and pickup services, flexible rental tenures, and an easy-to-use platform, renting has never been easier. Experience the freedom to rent what you need, when you need it, without the commitment of buying.";
+
+const rentalCategories = [
+  {
+    heading: "Action Cameras on Rent",
+    body: "Capture your adventures in stunning detail with our range of action cameras. Choose from top brands like GoPro, Insta360, and DJI, perfect for everything from extreme sports to casual vlogging. Whether you need high-quality video for your next trek or a 360-degree camera to capture every angle, we've got you covered.",
+  },
+  {
+    heading: "Cameras on Rent",
+    body: "From DSLRs to mirrorless cameras, SharePal offers a wide selection of high-quality cameras for rent. Whether you're a professional photographer or an enthusiast, our range of cameras will suit your every need. Capture life's precious moments without the hefty price tag of ownership.",
+  },
+  {
+    heading: "Trekking Gear on Rent",
+    body: "Gear up for your next adventure with SharePal's range of trekking equipment. Rent everything you need, from jackets and shoes to backpacks and accessories. Our trekking gear is designed to keep you comfortable and safe on your journey, no matter the terrain.",
+  },
+  {
+    heading: "Riding Gear on Rent",
+    body: "Stay safe and stylish on your rides with our collection of riding gear. From helmets to jackets, we offer everything you need to enjoy a thrilling ride. Our riding gear is carefully selected to ensure you have the best experience on the road.",
+  },
+  {
+    heading: "Projectors/Speakers on Rent",
+    body: "Make your events memorable with our high-quality projectors and speakers. Whether you're hosting a movie night, a presentation, or a party, our rental options provide top-notch audio and visual equipment to make your event a success.",
+  },
+  {
+    heading: "Creator Gear on Rent",
+    body: "For content creators, having access to the right gear is crucial. SharePal offers a wide range of creator gear, including lights, tripods, and microphones. Elevate your content without the burden of buying expensive equipment.",
+  },
+  {
+    heading: "Gaming Consoles on Rent",
+    body: "Experience the latest gaming consoles without the upfront cost. Rent PS5, Xbox, and more from SharePal. Whether you're a casual gamer or a hardcore enthusiast, our gaming consoles will provide hours of entertainment.",
+  },
+];
+
+const rentingVsBuying = [
+  {
+    label: "Cost-Effective:",
+    body: "Renting allows you to access high-quality products without the significant investment of buying. Save money by renting only when you need the product.",
+  },
+  {
+    label: "Flexibility:",
+    body: "Enjoy the flexibility to rent for as long as you need, whether it's for a day, a week, or a month. No long-term commitments required.",
+  },
+  {
+    label: "Access to the Latest Gear:",
+    body: "Stay up-to-date with the latest technology and trends without the hassle of reselling outdated products.",
+  },
+  {
+    label: "No Maintenance Worries:",
+    body: "Forget about maintenance and storage concerns. With renting, you're free from the responsibilities that come with ownership.",
+  },
+];
+
+const sharepalBenefits = [
+  {
+    label: "Zero Deposit:",
+    body: "Rent without the worry of a hefty deposit.",
+  },
+  {
+    label: "Free Delivery and Pickup:",
+    body: "Enjoy the convenience of having your rentals delivered to your doorstep and picked up when you're done.",
+  },
+  {
+    label: "Wide Range of Products:",
+    body: "From cameras to gaming consoles, we offer a diverse selection of high-quality products for rent.",
+  },
+  {
+    label: "Flexible Rental Tenures:",
+    body: "Rent for a day, a week, or even longer with our flexible rental options.",
+  },
+  {
+    label: "Top-Notch Customer Support:",
+    body: "Our dedicated customer support team is always ready to assist you with any questions or concerns.",
+  },
+];
 
 export function Footer() {
   return (
@@ -111,27 +187,62 @@ export function Footer() {
           <h2 className="font-display text-base font-bold text-white">
             Renting from SharePal in Bangalore
           </h2>
-          <p>
-            Renting from SharePal in Bangalore is easy and affordable. Your
-            trusted partner in rentals for all your travel needs, whether
-            you&apos;re exploring the vibrant streets of Karnataka, gearing up
-            for a trek or a road trip, or looking for the latest gaming console.
-            SharePal provides top-quality, sanitised rentals across a wide range
-            of categories: action cameras, cameras, trekking gear, camping
-            equipment, riding gear, gaming consoles, projectors, speakers, and
-            more. With free home delivery and pickup, flexible rental tenures,
-            and an easy-to-use platform, renting has never been this convenient.
-          </p>
+          <p>{bangaloreIntro}</p>
+
           <h2 className="pt-4 font-display text-base font-bold text-white">
             Categories on Rent
           </h2>
+          {rentalCategories.map((category) => (
+            <div key={category.heading}>
+              <h3 className="font-semibold text-white">{category.heading}</h3>
+              <p className="mt-1">{category.body}</p>
+            </div>
+          ))}
+
+          <h2 className="pt-4 font-display text-base font-bold text-white">
+            Renting vs. Buying
+          </h2>
+          <ul className="list-disc space-y-2 pl-5">
+            {rentingVsBuying.map((item) => (
+              <li key={item.label}>
+                <strong className="font-semibold text-white">
+                  {item.label}
+                </strong>{" "}
+                {item.body}
+              </li>
+            ))}
+          </ul>
+
+          <h2 className="pt-4 font-display text-base font-bold text-white">
+            Why SharePal in Bangalore
+          </h2>
           <p>
-            From action cameras on rent to gaming consoles on rent, we have
-            options available in multiple locations. Get detailed insights on
-            camera rentals including action cameras, DSLRs, lenses and gimbals.
-            Live out your travel and vlogging dreams with our travel and
-            vlogging gear, or make the most of a special occasion with our
-            professional-grade gear at your fingertips.
+            SharePal stands out in Bangalore for its customer-focused services
+            and unique selling propositions (USPs):
+          </p>
+          <ul className="list-disc space-y-2 pl-5">
+            {sharepalBenefits.map((item) => (
+              <li key={item.label}>
+                <strong className="font-semibold text-white">
+                  {item.label}
+                </strong>{" "}
+                {item.body}
+              </li>
+            ))}
+          </ul>
+
+          <h2 className="pt-4 font-display text-base font-bold text-white">
+            Read Our Reviews of Customers in SharePal Bangalore
+          </h2>
+          <p>
+            <a href="#" className="transition-colors hover:text-lime">
+              Read Google reviews of SharePal in Bangalore
+            </a>
+          </p>
+          <p>
+            <a href="#" className="transition-colors hover:text-lime">
+              Read Trust Pilot reviews of our customers from Bangalore
+            </a>
           </p>
         </div>
 
@@ -209,10 +320,10 @@ export function Footer() {
           <a href="#top" className="transition-colors hover:text-lime">
             Go Up ↑
           </a>
-          <p>© 2026 SHAREPAL E-Kriya Services Pvt Ltd</p>
+          <p>© 2026. SWNAC E-Kiraya Services Pvt Ltd</p>
           <p>
-            Made with <span aria-hidden="true">❤</span>
-            <span className="sr-only">love</span> in India
+            Made with <span aria-hidden="true">♥️</span>
+            <span className="sr-only">love</span> for India
           </p>
         </div>
       </div>

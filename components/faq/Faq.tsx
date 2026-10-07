@@ -2,29 +2,30 @@ import { ChevronDown } from "lucide-react";
 
 const faqs = [
   {
-    question: "Do I need to pay a security deposit to rent in Bangalore?",
+    question: "How can I rent from SharePal?",
     answer:
-      "No. Every rental on SharePal is zero deposit. You only pay the rent for the days you keep the product.",
+      "Renting from SharePal is quick and easy. You can browse the products, select your dates and add them to cart and checkout. You can choose to pay online or upon delivery.",
   },
   {
-    question: "Is delivery and pickup free in Bangalore?",
+    question:
+      "If I rent multiple products, do I need to extend the rental duration for all or partial extension is possible?",
     answer:
-      "Yes. Delivery and pickup are free across Bangalore. Pick a delivery slot at checkout and we bring the gear to your door, then collect it when your rental ends.",
+      "No, partial extension is not possible, all the products that are rented in that particular order have to be extended.",
   },
   {
-    question: "What if the product gets damaged during my rental?",
+    question: "When does the rental start?",
     answer:
-      "Every rental includes accidental damage cover, so minor damage from normal use is covered. You are only liable for loss or damage outside the cover, as described in our damage policy.",
+      "The rental starts from the following day of the delivery day and ends a day prior to the return date. So for example, if you select the delivery date as 5th June and return date as 8th June. The rental is charged for 2 days.",
   },
   {
-    question: "How long can I rent a gaming console for?",
+    question: "What will be the condition of the products at the time of delivery?",
     answer:
-      "You can rent for as little as one day or as long as several months. The per-day price drops as your rental tenure gets longer.",
+      "At SharePal.in, we make sure that the products you receive are in great condition upon delivery. We thoroughly inspect and clean each item before sending it your way. If you ever face any issues, our friendly customer support team is here to help. Your satisfaction matters to us the most!",
   },
   {
-    question: "What do I need to share to place an order?",
+    question: "Why is verification required?",
     answer:
-      "A government-issued photo ID and your delivery address in Bangalore. Verification takes a couple of minutes and is done once.",
+      "Profile verification is a crucial step at SharePal.in to ensure the safety and security of our platform and users. It helps us confirm the identity of our users, prevent fraud, and maintain a secure environment for everyone involved.",
   },
 ];
 

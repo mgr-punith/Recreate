@@ -10,6 +10,7 @@
   --color-ink-muted: #5d6171;
   --color-line: #e2e8f0;
   --color-tile: #f3f4f6;
+  --color-tile-soft: #f9fafb;
 
   --color-navy: #030d31;
   --color-grape: #4c187c;
@@ -18,6 +19,32 @@
   --color-trending: #e86419;
   --color-new: #0079bc;
   --color-info: #eef0fe;
+  --color-info-strong: #0f298b;
+
+  /* Rental flow: date picker, cart drawer and the ticker on each card. */
+  --color-primary: #1945e8;
+  --color-secondary-150: #ecffcc;
+  --color-secondary-200: #e2ffb3;
+  --color-secondary-900: #243a01;
+  --color-neutral-150: #f4f6f7;
+  --color-neutral-200: #e2e7ea;
+  --color-neutral-900: #090a0b;
+  --color-ink-soft: #383a44;
+  --color-ink-subtle: #7a7a7a;
+  --color-ink-faint: #979797;
+  --color-ink-ghost: #a6a6a6;
+  --color-panel: #f2f2f2;
+  --color-required: #ef4444;
+  --color-ink-disabled: #64748b;
+
+  /* Review rail. */
+  --color-review: #fbfbfb;
+  --color-avatar: #d1dafa;
+  --color-avatar-ink: #1437ba;
+  --color-star: #e8ae19;
+
+  --container-modal: 1280px;
+  --container-cart: 606px;
 
   --radius-card: 24px;
   --radius-pill: 28px;
@@ -28,4 +55,19 @@
   --text-hero--letter-spacing: -0.4px;
   --text-section: 24px;
   --text-section--line-height: 32px;
+  --text-display: 48px;
+  --text-display--line-height: 56px;
+
+  --animate-marquee-horizontal: marquee-horizontal var(--duration, 60s) linear infinite;
+}
+
+/* The rail scrolls by exactly one of its two identical copies, so the loop has no seam. */
+@keyframes marquee-horizontal {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }

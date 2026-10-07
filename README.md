@@ -75,15 +75,14 @@ Three small improvements beyond a straight copy:
 
 - **Prices** are displayed directly rather than gated behind the date-picker
   modal (see above).
-- **Banner placement.** The original interleaves the promo banners between rows
-  of the product grid; here "Become an Asset Partner" and "Rent Out Your Gear"
-  follow the grid.
 - **Item count** reads 23 items, from `data/products.json`. The live page shows
   50; the provided data set is the 23.
 - **FAQ answers and reviews** are written to match the structure and tone of the
   original sections; their exact wording was not part of the provided data.
-- **Hero and rail artwork** are the original's own assets, loaded from
-  `images.sharepal.in` (allow-listed in `next.config.ts`).
+- **Hero, rail and promo artwork** are the original's own assets, loaded from
+  `images.sharepal.in` (allow-listed in `next.config.ts`). The two promo banners
+  sit between rows of the grid at the original's positions, each wrapped in a
+  link to the original's destination.
 - The `next/image` `priority` prop is not used because Next 16 deprecated it in
   favour of `loading="eager"`; the first row of cards uses `loading="eager"` and
   the rest lazy-load.
