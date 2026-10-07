@@ -1,6 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { ProductCard } from "@/components/product-card/ProductCard";
+import { RentalProvider } from "@/components/rental-context/RentalProvider";
 import type { Product } from "@/types/product";
 
 function product(overrides: Partial<Product> = {}): Product {
@@ -17,19 +19,100 @@ function product(overrides: Partial<Product> = {}): Product {
   };
 }
 
-describe("ProductCard", () => {
-  it("shows the per-day rent and offers to add a rentable product to the cart", () => {
-    render(<ProductCard product={product()} />);
+function renderCard(card: Product) {
+  render(
+    <RentalProvider products={[card]}>
+      <ProductCard product={card} />
+    </RentalProvider>,
+  );
+}
 
-    expect(screen.getByText("₹200")).toBeInTheDocument();
-    expect(screen.getByText("/day")).toBeInTheDocument();
+function availableDays() {
+  return screen
+    .getAllByRole("button", { name: /, \d{4}$/ })
+    .filter((day) => !day.matches(":disabled"));
+}
+
+// The first available day is today, so the ninth is eight days later and the
+// seven days between them are chargeable.
+async function chooseOneWeek() {
+  const user = userEvent.setup();
+  const days = availableDays();
+  await user.click(days[0]);
+  await user.click(days[8]);
+  await user.click(screen.getByRole("button", { name: "Continue" }));
+}
+
+describe("ProductCard", () => {
+  it("hides the price until rental dates are chosen", () => {
+    renderCard(product());
+
+    expect(screen.getByText("Select Dates to view price")).toBeInTheDocument();
+    expect(screen.queryByText(/^Rent for/)).not.toBeInTheDocument();
+    expect(screen.queryByText("Incl. of GST")).not.toBeInTheDocument();
+  });
+
+  it("reveals the total for the chosen rental period", async () => {
+    renderCard(product());
+    await chooseOneWeek();
+
+    expect(screen.getByText("Rent for 7 days")).toBeInTheDocument();
+    expect(screen.getByText("₹1,400")).toBeInTheDocument();
+    expect(screen.getByText("Incl. of GST")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /add .* to cart/i }),
-    ).toBeEnabled();
+      screen.queryByText("Select Dates to view price"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("asks for rental dates before a product can be added", async () => {
+    const user = userEvent.setup();
+    renderCard(product());
+
+    await user.click(screen.getByRole("button", { name: "Close date picker" }));
+    expect(
+      screen.queryByRole("dialog", { name: "Select your Dates" }),
+    ).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /add .* to cart/i }));
+
+    expect(
+      screen.getByRole("dialog", { name: "Select your Dates" }),
+    ).toBeInTheDocument();
+  });
+
+  it("opens the date picker from the price placeholder", async () => {
+    const user = userEvent.setup();
+    renderCard(product());
+
+    await user.click(screen.getByRole("button", { name: "Close date picker" }));
+    await user.click(
+      screen.getByRole("button", { name: "Select Dates to view price" }),
+    );
+
+    expect(
+      screen.getByRole("dialog", { name: "Select your Dates" }),
+    ).toBeInTheDocument();
+  });
+
+  it("adds the product to the open cart once dates are chosen", async () => {
+    const user = userEvent.setup();
+    renderCard(product());
+    await chooseOneWeek();
+
+    await user.click(screen.getByRole("button", { name: /add .* to cart/i }));
+
+    expect(screen.getByRole("dialog", { name: "Cart" })).toBeInTheDocument();
+    expect(screen.getByText("1 items added")).toBeInTheDocument();
+
+    const card = within(screen.getByRole("article"));
+    expect(card.getByText("1")).toBeInTheDocument();
+    expect(
+      card.queryByRole("button", { name: /add .* to cart/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("cannot be added to the cart once the product is out of stock", () => {
-    render(<ProductCard product={product({ out_of_stock: true })} />);
+    renderCard(product({ out_of_stock: true }));
 
     expect(
       screen.getByRole("button", { name: /out of stock/i }),
@@ -37,7 +120,7 @@ describe("ProductCard", () => {
   });
 
   it("asks for a vote instead of a rental while a product is launching", () => {
-    render(<ProductCard product={product({ tag: "Vote to Launch" })} />);
+    renderCard(product({ tag: "Vote to Launch" }));
 
     expect(
       screen.getByRole("button", { name: /vote for .*/i }),
@@ -48,13 +131,13 @@ describe("ProductCard", () => {
   });
 
   it("shows the rating once a product has reviews", () => {
-    render(<ProductCard product={product()} />);
+    renderCard(product());
 
     expect(screen.getByText("4.6")).toBeInTheDocument();
   });
 
   it("leaves the rating out while a product has no reviews", () => {
-    render(<ProductCard product={product({ rating: 0 })} />);
+    renderCard(product({ rating: 0 }));
 
     expect(screen.queryByText("0")).not.toBeInTheDocument();
     expect(screen.getByText(/649 booked/)).toBeInTheDocument();
@@ -62,16 +145,22 @@ describe("ProductCard", () => {
 
   it("shows a badge only when the product carries a tag", () => {
     const { rerender } = render(
-      <ProductCard product={product({ tag: "Trending" })} />,
+      <RentalProvider products={[product({ tag: "Trending" })]}>
+        <ProductCard product={product({ tag: "Trending" })} />
+      </RentalProvider>,
     );
     expect(screen.getByText("Trending")).toBeInTheDocument();
 
-    rerender(<ProductCard product={product({ tag: "" })} />);
+    rerender(
+      <RentalProvider products={[product()]}>
+        <ProductCard product={product()} />
+      </RentalProvider>,
+    );
     expect(screen.queryByText("Trending")).not.toBeInTheDocument();
   });
 
   it("shortens a large booking count", () => {
-    render(<ProductCard product={product({ booked_count: 2527 })} />);
+    renderCard(product({ booked_count: 2527 }));
 
     expect(screen.getByText(/2\.5k\+ booked/)).toBeInTheDocument();
   });

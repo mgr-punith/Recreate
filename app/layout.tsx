@@ -3,6 +3,8 @@ import { Inter, Ubuntu } from "next/font/google";
 import { Footer } from "@/components/footer/Footer";
 import { Header } from "@/components/header/Header";
 import { MobileTabBar } from "@/components/mobile-tab-bar/MobileTabBar";
+import { RentalProvider } from "@/components/rental-context/RentalProvider";
+import { getProducts } from "@/lib/products";
 import "./globals.css";
 
 const inter = Inter({
@@ -34,10 +36,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} ${ubuntu.variable}`}>
       <body className="flex min-h-dvh flex-col bg-page font-sans text-ink antialiased">
-        <Header />
-        {children}
-        <Footer />
-        <MobileTabBar />
+        <RentalProvider products={getProducts()}>
+          <Header />
+          {children}
+          <Footer />
+          <MobileTabBar />
+        </RentalProvider>
       </body>
     </html>
   );
