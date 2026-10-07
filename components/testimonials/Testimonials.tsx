@@ -158,8 +158,8 @@ function ReviewCard({
 
 export function Testimonials() {
   return (
-    <section>
-      <h2 className="px-4 text-center font-display text-3xl font-bold md:text-display">
+    <section className="bg-white p-5">
+      <h2 className="px-4 lg:py-4 text-center font-display text-3xl font-bold md:text-display">
         Served more than 1 Lakh Orders
       </h2>
 

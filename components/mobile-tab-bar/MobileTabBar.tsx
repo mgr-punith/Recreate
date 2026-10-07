@@ -1,6 +1,7 @@
 "use client";
 
 import { Home, LayoutGrid, Search, ShoppingCart } from "lucide-react";
+import { CartCountBadge, cartCountLabel } from "@/components/cart/CartCountBadge";
 import { useRental } from "@/components/rental-context/RentalProvider";
 
 const tabs = [
@@ -13,7 +14,7 @@ const tabClass =
   "flex flex-col items-center gap-1 py-2 text-[11px] text-white/80 transition-colors hover:text-lime";
 
 export function MobileTabBar() {
-  const { openCart } = useRental();
+  const { itemCount, openCart } = useRental();
 
   return (
     <nav
@@ -31,8 +32,16 @@ export function MobileTabBar() {
         ))}
 
         <li className="flex-1">
-          <button type="button" onClick={openCart} className={`w-full ${tabClass}`}>
-            <ShoppingCart aria-hidden="true" className="size-6" />
+          <button
+            type="button"
+            aria-label={cartCountLabel(itemCount)}
+            onClick={openCart}
+            className={`w-full ${tabClass}`}
+          >
+            <span className="relative">
+              <ShoppingCart aria-hidden="true" className="size-6" />
+              <CartCountBadge count={itemCount} />
+            </span>
             Cart
           </button>
         </li>

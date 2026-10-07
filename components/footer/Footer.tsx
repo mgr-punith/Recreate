@@ -1,4 +1,4 @@
-import { Mail } from "lucide-react";
+import { ChevronDown, Mail } from "lucide-react";
 
 const gearCategories = [
   {
@@ -189,61 +189,76 @@ export function Footer() {
           </h2>
           <p>{bangaloreIntro}</p>
 
-          <h2 className="pt-4 font-display text-base font-bold text-white">
-            Categories on Rent
-          </h2>
-          {rentalCategories.map((category) => (
-            <div key={category.heading}>
-              <h3 className="font-semibold text-white">{category.heading}</h3>
-              <p className="mt-1">{category.body}</p>
+          <details className="group pt-4">
+            <summary className="inline-flex cursor-pointer list-none items-center gap-2 font-display text-base font-bold text-white marker:content-none">
+              <span className="group-open:hidden">Read more</span>
+              <span className="hidden group-open:inline">Read less</span>
+              <ChevronDown
+                aria-hidden="true"
+                className="size-4 transition-transform group-open:rotate-180"
+              />
+            </summary>
+
+            <div className="mt-4 space-y-4">
+              <h2 className="font-display text-base font-bold text-white">
+                Categories on Rent
+              </h2>
+              {rentalCategories.map((category) => (
+                <div key={category.heading}>
+                  <h3 className="font-semibold text-white">
+                    {category.heading}
+                  </h3>
+                  <p className="mt-1">{category.body}</p>
+                </div>
+              ))}
+
+              <h2 className="pt-4 font-display text-base font-bold text-white">
+                Renting vs. Buying
+              </h2>
+              <ul className="list-disc space-y-2 pl-5">
+                {rentingVsBuying.map((item) => (
+                  <li key={item.label}>
+                    <strong className="font-semibold text-white">
+                      {item.label}
+                    </strong>{" "}
+                    {item.body}
+                  </li>
+                ))}
+              </ul>
+
+              <h2 className="pt-4 font-display text-base font-bold text-white">
+                Why SharePal in Bangalore
+              </h2>
+              <p>
+                SharePal stands out in Bangalore for its customer-focused
+                services and unique selling propositions (USPs):
+              </p>
+              <ul className="list-disc space-y-2 pl-5">
+                {sharepalBenefits.map((item) => (
+                  <li key={item.label}>
+                    <strong className="font-semibold text-white">
+                      {item.label}
+                    </strong>{" "}
+                    {item.body}
+                  </li>
+                ))}
+              </ul>
+
+              <h2 className="pt-4 font-display text-base font-bold text-white">
+                Read Our Reviews of Customers in SharePal Bangalore
+              </h2>
+              <p>
+                <a href="#" className="transition-colors hover:text-lime">
+                  Read Google reviews of SharePal in Bangalore
+                </a>
+              </p>
+              <p>
+                <a href="#" className="transition-colors hover:text-lime">
+                  Read Trust Pilot reviews of our customers from Bangalore
+                </a>
+              </p>
             </div>
-          ))}
-
-          <h2 className="pt-4 font-display text-base font-bold text-white">
-            Renting vs. Buying
-          </h2>
-          <ul className="list-disc space-y-2 pl-5">
-            {rentingVsBuying.map((item) => (
-              <li key={item.label}>
-                <strong className="font-semibold text-white">
-                  {item.label}
-                </strong>{" "}
-                {item.body}
-              </li>
-            ))}
-          </ul>
-
-          <h2 className="pt-4 font-display text-base font-bold text-white">
-            Why SharePal in Bangalore
-          </h2>
-          <p>
-            SharePal stands out in Bangalore for its customer-focused services
-            and unique selling propositions (USPs):
-          </p>
-          <ul className="list-disc space-y-2 pl-5">
-            {sharepalBenefits.map((item) => (
-              <li key={item.label}>
-                <strong className="font-semibold text-white">
-                  {item.label}
-                </strong>{" "}
-                {item.body}
-              </li>
-            ))}
-          </ul>
-
-          <h2 className="pt-4 font-display text-base font-bold text-white">
-            Read Our Reviews of Customers in SharePal Bangalore
-          </h2>
-          <p>
-            <a href="#" className="transition-colors hover:text-lime">
-              Read Google reviews of SharePal in Bangalore
-            </a>
-          </p>
-          <p>
-            <a href="#" className="transition-colors hover:text-lime">
-              Read Trust Pilot reviews of our customers from Bangalore
-            </a>
-          </p>
+          </details>
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-10">
