@@ -4,6 +4,17 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.sharepal.in",
+        port: "",
+        pathname: "/**",
+        search: "",
+      },
+    ],
+  },
   turbopack: {
     rules: {
       "*.css": {
