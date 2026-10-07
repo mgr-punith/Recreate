@@ -3,6 +3,7 @@ import { CategoryTabs } from "@/components/category-tabs/CategoryTabs";
 import { Faq } from "@/components/faq/Faq";
 import { Hero } from "@/components/hero/Hero";
 import { ProductGrid } from "@/components/product-grid/ProductGrid";
+import { ProductStrip } from "@/components/product-strip/ProductStrip";
 import { Stats } from "@/components/stats/Stats";
 import { Testimonials } from "@/components/testimonials/Testimonials";
 import { getProducts } from "@/lib/products";
@@ -38,6 +39,8 @@ export default function Home() {
       {/* The rail belongs to the hero and the catalogue only, so everything
           after it sits in the page container instead. */}
       <div className="mx-auto w-full max-w-[1240px] space-y-6 px-4 pb-6">
+        <ProductStrip list="saved" />
+
         <Faq />
 
         <nav aria-label="Breadcrumb" className="text-sm text-ink-muted">
@@ -59,6 +62,10 @@ export default function Home() {
 
       <div className="w-full">
         <Stats />
+      </div>
+
+      <div className="mx-auto w-full max-w-[1240px] px-4 pt-6">
+        <ProductStrip list="recent" />
       </div>
     </main>
   );

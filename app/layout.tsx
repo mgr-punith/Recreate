@@ -4,6 +4,7 @@ import { Footer } from "@/components/footer/Footer";
 import { Header } from "@/components/header/Header";
 import { MobileTabBar } from "@/components/mobile-tab-bar/MobileTabBar";
 import { RentalProvider } from "@/components/rental-context/RentalProvider";
+import { SavedProvider } from "@/components/saved-context/SavedProvider";
 import { getProducts } from "@/lib/products";
 import "./globals.css";
 
@@ -33,14 +34,18 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  const products = getProducts();
+
   return (
     <html lang="en" className={`${inter.variable} ${ubuntu.variable}`}>
       <body className="flex min-h-dvh flex-col bg-page font-sans text-ink antialiased">
-        <RentalProvider products={getProducts()}>
-          <Header />
-          {children}
-          <Footer />
-          <MobileTabBar />
+        <RentalProvider products={products}>
+          <SavedProvider products={products}>
+            <Header />
+            {children}
+            <Footer />
+            <MobileTabBar />
+          </SavedProvider>
         </RentalProvider>
       </body>
     </html>

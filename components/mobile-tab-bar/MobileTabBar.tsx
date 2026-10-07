@@ -1,8 +1,9 @@
 "use client";
 
-import { Home, LayoutGrid, Search, ShoppingCart } from "lucide-react";
+import { Heart, Home, LayoutGrid, Search, ShoppingCart } from "lucide-react";
 import { CartCountBadge, cartCountLabel } from "@/components/cart/CartCountBadge";
 import { useRental } from "@/components/rental-context/RentalProvider";
+import { useSaved } from "@/components/saved-context/SavedProvider";
 
 const tabs = [
   { label: "Home", href: "#top", Icon: Home },
@@ -15,6 +16,7 @@ const tabClass =
 
 export function MobileTabBar() {
   const { itemCount, openCart } = useRental();
+  const { savedCount } = useSaved();
 
   return (
     <nav
@@ -30,6 +32,22 @@ export function MobileTabBar() {
             </a>
           </li>
         ))}
+
+        {savedCount > 0 && (
+          <li className="flex-1">
+            <a
+              href="#saved"
+              aria-label={`Saved, ${savedCount} items saved`}
+              className={tabClass}
+            >
+              <Heart
+                aria-hidden="true"
+                className="size-6 fill-trending text-trending"
+              />
+              Saved
+            </a>
+          </li>
+        )}
 
         <li className="flex-1">
           <button

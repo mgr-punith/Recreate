@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { ProductCard } from "@/components/product-card/ProductCard";
 import { RentalProvider } from "@/components/rental-context/RentalProvider";
+import { SavedProvider } from "@/components/saved-context/SavedProvider";
 import type { Product } from "@/types/product";
 
 function product(overrides: Partial<Product> = {}): Product {
@@ -22,7 +23,9 @@ function product(overrides: Partial<Product> = {}): Product {
 function renderCard(card: Product) {
   render(
     <RentalProvider products={[card]}>
-      <ProductCard product={card} />
+      <SavedProvider products={[card]}>
+        <ProductCard product={card} />
+      </SavedProvider>
     </RentalProvider>,
   );
 }
@@ -144,16 +147,22 @@ describe("ProductCard", () => {
   });
 
   it("shows a badge only when the product carries a tag", () => {
+    const trending = product({ tag: "Trending" });
+    const plain = product();
     const { rerender } = render(
-      <RentalProvider products={[product({ tag: "Trending" })]}>
-        <ProductCard product={product({ tag: "Trending" })} />
+      <RentalProvider products={[trending]}>
+        <SavedProvider products={[trending]}>
+          <ProductCard product={trending} />
+        </SavedProvider>
       </RentalProvider>,
     );
     expect(screen.getByText("Trending")).toBeInTheDocument();
 
     rerender(
-      <RentalProvider products={[product()]}>
-        <ProductCard product={product()} />
+      <RentalProvider products={[plain]}>
+        <SavedProvider products={[plain]}>
+          <ProductCard product={plain} />
+        </SavedProvider>
       </RentalProvider>,
     );
     expect(screen.queryByText("Trending")).not.toBeInTheDocument();
@@ -163,5 +172,33 @@ describe("ProductCard", () => {
     renderCard(product({ booked_count: 2527 }));
 
     expect(screen.getByText(/2\.5k\+ booked/)).toBeInTheDocument();
+  });
+
+  it("fills the heart once a gadget is saved, and empties it again", async () => {
+    const user = userEvent.setup();
+    const name = product().name;
+    renderCard(product());
+
+    await user.click(screen.getByRole("button", { name: "Close date picker" }));
+
+    expect(
+      screen.getByRole("button", { name: `Save ${name} for later` }),
+    ).toHaveAttribute("aria-pressed", "false");
+
+    await user.click(
+      screen.getByRole("button", { name: `Save ${name} for later` }),
+    );
+
+    expect(
+      screen.getByRole("button", { name: `Remove ${name} from saved` }),
+    ).toHaveAttribute("aria-pressed", "true");
+
+    await user.click(
+      screen.getByRole("button", { name: `Remove ${name} from saved` }),
+    );
+
+    expect(
+      screen.getByRole("button", { name: `Save ${name} for later` }),
+    ).toHaveAttribute("aria-pressed", "false");
   });
 });
