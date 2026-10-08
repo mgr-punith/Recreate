@@ -2,7 +2,7 @@
 
 A recreation of [sharepal.in/bangalore/gaming-gadgets-on-rent](https://sharepal.in/bangalore/gaming-gadgets-on-rent), built with Next.js 16 (App Router), React 19, Tailwind CSS 4 and TypeScript.
 
-**Live URL:** recreate-alpha.vercel.app
+**Live URL:** recreate-alpha.vercel.app(https://recreate-alpha.vercel.app/)
 
 ## Getting started
 
